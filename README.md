@@ -441,29 +441,34 @@ Shopora-Django-Ecommerce/
 Additional files, including the dependency list and environment configuration instructions, should be included where required.
 
 ## 16. Screenshots
+## 16. Screenshots
 
-Add screenshots of the actual running application to a `screenshots/` folder in the repository.
+### Home Page
+![Shopora Home Page](screenshots/box.png)
 
-Recommended screenshots:
+### Login Page
+![Shopora Login Page](screenshots/login.png)
 
-1. Home page with products.
-2. Registration or login page.
-3. Product details page.
-4. Shopping cart.
-5. Wishlist.
-6. Checkout page.
-7. My Orders page.
-8. Order details or cancellation result.
-9. Django Admin, if useful for demonstrating product management.
+### Registration Page
+![Shopora Registration Page](screenshots/registration.png)
 
-Use relative image paths so GitHub can display them. For example, if a screenshot is saved as `screenshots/home.png`, include:
+### Product Details
+![Shopora Product Details](screenshots/product_details.png)
 
-```markdown
-![Shopora Home Page](screenshots/home.png)
-```
+### Shopping Cart
+![Shopora Shopping Cart](screenshots/cart.png)
 
-Only include screenshots that you have actually captured from the application.
+### Wishlist
+![Shopora Wishlist](screenshots/wishlist.png)
 
+### Checkout
+![Shopora Checkout](screenshots/checkout.png)
+
+### My Orders
+![Shopora Orders](screenshots/order.png)
+
+### Order Details
+![Shopora Order Details](screenshots/view_details.png)
 ## 17. Future Improvements
 
 Possible future improvements include:
