@@ -1,0 +1,82 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Shopora</title>
+
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+</head>
+<body>
+
+    <div class="orders-container">
+
+        <div class="orders-header">
+            <h1>My Orders</h1>
+            <p>Track and manage your Shopora purchases.</p>
+        </div>
+
+        {% for order in orders %}
+
+            <div class="order-card">
+
+                <div class="order-top">
+                    <h3>Order #{{ order.id }}</h3>
+
+                    <span class="order-status">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="order-info">
+
+                    <div class="info-item">
+                        <span class="info-label">Total Amount</span>
+                        <strong>₹{{ order.total_price }}</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Order Date</span>
+                        <strong>{{ order.created_at|date:"d M Y, h:i A" }}</strong>
+                    </div>
+
+                </div>
+
+              
+<a href="{% url 'order_detail' order.id %}" class="view-order-btn">
+    View Order Details
+</a>
+
+{% if order.status == 'ordered' %}
+    <form method="post" action="{% url 'cancel_order' order.id %}"
+          onsubmit="return confirm('Are you sure you want to cancel this order?');">
+        {% csrf_token %}
+        <button type="submit" class="cancel-order-btn">
+            Cancel Order
+        </button>
+    </form>
+{% endif %}
+ 
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty-orders">
+                <h2>No Orders Yet</h2>
+                <p>You haven't placed any orders yet. Your purchases will appear here.</p>
+                <a href="/" class="shop-btn">Start Shopping</a>
+            </div>
+
+        {% endfor %}
+
+        <a href="/" class="back-link">← Continue Shopping</a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopora | Discover Your Style</title>
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+</head>
+<body>
+
+    <header class="shop-header">
+        <nav class="shop-nav">
+            <a href="{% url 'dashboard' %}" class="shop-logo">
+                shopora<span>.</span>
+            </a>
+
+            <form class="shop-search" action="#" method="get">
+                <input type="search" name="q"
+                       placeholder="Search for products, brands and more">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+
+            <div class="shop-nav-links">
+                <a href="{% url 'dashboard' %}" class="active">Home</a>
+                <a href="#categories">Categories</a>
+                <a href="#featured">Products</a>
+                <a href="#account">My Account</a>
+                <a href="{% url 'logout' %}" class="shop-logout">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="shop-home">
+
+        <section class="shop-hero">
+            <div class="hero-copy">
+                <span class="hero-label">THE SHOPORA COLLECTION</span>
+
+                <h1>Find your next<br>favourite thing.</h1>
+
+                <p>
+                    Welcome, {{ request.user.username }}.
+                    Discover everyday essentials and finds
+                    picked for your lifestyle.
+                </p>
+
+                <a href="#featured" class="shop-cta">Explore the collection →</a>
+
+                <div class="hero-points">
+                    <span>✦ Curated collections</span>
+                    <span>✦ A better way to shop</span>
+                </div>
+            </div>
+
+            <div class="hero-art">
+                <div class="hero-circle"></div>
+                <div class="hero-product">
+                    <span class="hero-spark">✦</span>
+                    <span class="hero-product-name">YOUR<br>STYLE.<br>YOUR WAY.</span>
+                    <span class="hero-product-small">DISCOVER SOMETHING NEW</span>
+                </div>
+                <div class="hero-sticker">MADE FOR<br>YOUR EVERYDAY</div>
+            </div>
+        </section>
+
+        <section id="categories" class="shop-section">
+            <div class="shop-section-heading">
+                <div>
+                    <span class="section-kicker">EXPLORE</span>
+                    <h2>Shop by category</h2>
+                </div>
+                <span class="section-note">Find what you love.</span>
+            </div>
+
+            <div class="category-grid">
+                <a href="#featured" class="category-tile category-one">
+                    <span class="category-icon">✦</span>
+                    <span class="category-name">Fashion</span>
+                    <span class="category-caption">Everyday style</span>
+                </a>
+
+                <a href="#featured" class="category-tile category-two">
+                    <span class="category-icon">⌁</span>
+                    <span class="category-name">Electronics</span>
+                    <span class="category-caption">Smart essentials</span>
+                </a>
+
+                <a href="#featured" class="category-tile category-three">
+                    <span class="category-icon">❋</span>
+                    <span class="category-name">Home & Living</span>
+                    <span class="category-caption">Make it yours</span>
+                </a>
+
+                <a href="#featured" class="category-tile category-four">
+                    <span class="category-icon">♡</span>
+                    <span class="category-name">Accessories</span>
+                    <span class="category-caption">Little details</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="featured" class="shop-section featured-section">
+            <div class="shop-section-heading">
+                <div>
+                    <span class="section-kicker">THE LATEST FINDS</span>
+                    <h2>Featured products</h2>
+                </div>
+            </div>
+
+            <div class="product-empty">
+                <div class="empty-symbol">✦</div>
+                <h3>Your next favourite is waiting.</h3>
+                <p>
+                    Our product collection will appear here
+                    when we connect this page to your Django products database.
+                </p>
+            </div>
+        </section>
+
+        <section id="account" class="account-strip">
+            <div>
+                <span class="section-kicker">YOUR SHOPORA</span>
+                <h2>Your account, all in one place.</h2>
+                <p>
+                    Signed in as {{ request.user.username }}.
+                    Manage your personal account details here.
+                </p>
+                <div class="account-details">
+                    <span>
+                        <strong>Name</strong>
+                        {{ request.user.profile.name|default:"Not provided" }}
+                    </span>
+                    <span>
+                        <strong>Country</strong>
+                        {{ request.user.profile.country|default:"Not provided" }}
+                    </span>
+                </div>
+            </div>
+
+            <a href="{% url 'logout' %}" class="account-logout">
+                Sign out →
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="shop-footer">
+        <a href="{% url 'dashboard' %}" class="shop-logo">
+            shopora<span>.</span>
+        </a>
+        <p>A little discovery goes a long way.</p>
+        <span>© 2026 Shopora</span>
+    </footer>
+
+</body>
+</html>

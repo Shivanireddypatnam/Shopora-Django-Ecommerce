@@ -1,0 +1,162 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f6f4;
+    color: #24332b;
+}
+
+.checkout-header {
+    background-color: #173d30;
+    color: white;
+    padding: 22px 7%;
+}
+
+.checkout-header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.checkout-header p {
+    margin: 6px 0 0;
+    color: #dce8df;
+    font-size: 14px;
+}
+
+.checkout-container {
+    max-width: 850px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.checkout-card {
+    background-color: white;
+    border: 1px solid #e3e7e3;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.checkout-title {
+    margin: 0 0 8px;
+    font-size: 24px;
+}
+
+.checkout-subtitle {
+    margin: 0 0 25px;
+    color: #727a74;
+    font-size: 14px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d5dbd6;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    padding: 20px;
+    background-color: #f2f6f1;
+    border-radius: 8px;
+}
+
+.total-label {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.total-price {
+    color: #a45337;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.place-order-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background-color: #173d30;
+    color: white;
+    border: 1px solid #173d30;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.place-order-button:hover {
+    background-color: #245641;
+}
+
+.back-link {
+    display: block;
+    margin-top: 18px;
+    text-align: center;
+    color: #27654b;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .checkout-container {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    .checkout-card {
+        padding: 20px 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .checkout-header {
+        padding: 20px;
+    }
+}

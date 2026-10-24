@@ -1,0 +1,80 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | Shopora</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<header class="detail-header">
+    <a href="{% url 'home' %}" class="logo">shopora<span>.</span></a>
+    <a href="{% url 'home' %}" class="back-link">
+        ← Continue Shopping
+    </a>
+</header>
+
+<main class="detail-container">
+    <div class="detail-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+
+    <div class="detail-info">
+        <span class="section-label">SHOPORA PRODUCT</span>
+
+        <h1>{{ product.name }}</h1>
+
+        <p class="detail-description">
+            {{ product.description|default:"Discover this product from our collection." }}
+        </p>
+
+        <div class="detail-price">
+            ₹{{ product.price }}
+        </div>
+
+        {% if product.stock > 0 %}
+            <p class="stock in-stock">
+                In stock — {{ product.stock }} available
+            </p>
+        {% else %}
+            <p class="stock out-of-stock">Currently out of stock</p>
+        {% endif %}
+
+        <div class="detail-actions">
+            {% if product.stock > 0 %}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'add_to_cart' product.id %}"
+                       class="shop-button">
+                        Add to Cart
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="shop-button">
+                        Login to Add to Cart
+                    </a>
+                {% endif %}
+            {% endif %}
+
+            <a href="{% url 'home' %}" class="continue-button">
+                Continue Shopping
+            </a>
+        </div>
+
+        <div class="detail-note">
+            <strong>Product details</strong>
+            <p>Product: {{ product.name }}</p>
+            <p>Availability: {{ product.stock }} in stock</p>
+        </div>
+    </div>
+</main>
+
+<footer class="store-footer">
+    <a href="{% url 'home' %}" class="logo">shopora<span>.</span></a>
+    <p>Discover something you'll love.</p>
+    <span>© 2026 Shopora</span>
+</footer>
+
+</body>
+</html>

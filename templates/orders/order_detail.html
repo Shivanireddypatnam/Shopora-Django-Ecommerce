@@ -1,0 +1,76 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Details | Shopora</title>
+
+    <link rel="stylesheet" href="{% static 'css/order_detail.css' %}">
+</head>
+<body>
+
+    <div class="detail-container">
+
+        <a href="{% url 'orders' %}" class="back-link">
+            ← Back to My Orders
+        </a>
+
+        <div class="detail-header">
+            <h1>Order Details</h1>
+            <p>Thank you for shopping with Shopora.</p>
+            <span class="order-number">Order #{{ order.id }}</span>
+        </div>
+
+        <div class="detail-card">
+
+            <h2>Products Ordered</h2>
+
+            <div class="product-list">
+                {% for item in order.items.all %}
+                    <div class="product-row">
+                        <div class="product-name">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>Quantity: {{ item.quantity }}</p>
+                        </div>
+
+                        <strong>₹{{ item.subtotal|floatformat:2 }}</strong>
+                    </div>
+                {% empty %}
+                    <p>No products found for this order.</p>
+                {% endfor %}
+            </div>
+
+            <div class="total-row">
+                <span>Total Amount</span>
+                <strong>₹{{ order.total_price|floatformat:2 }}</strong>
+            </div>
+
+            <div class="status-section">
+                <span class="section-label">Order Status</span>
+                <span class="order-status">
+                    {{ order.get_status_display }}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="detail-card address-card">
+
+            <h2>Delivery Address</h2>
+
+            <p class="customer-name">{{ order.full_name }}</p>
+            <p>{{ order.phone }}</p>
+            <p>{{ order.address }}</p>
+            <p>{{ order.city }}, {{ order.state }} - {{ order.pincode }}</p>
+
+        </div>
+
+        <a href="/" class="shop-button">Continue Shopping</a>
+
+    </div>
+
+</body>
+</html>

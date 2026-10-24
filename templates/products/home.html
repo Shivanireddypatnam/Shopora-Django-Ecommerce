@@ -1,0 +1,292 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopora | Online Shopping</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="top-bar">
+        <a href="{% url 'home' %}" class="logo">
+            Shopora<span>.</span>
+        </a>
+
+        <form method="get" class="search-bar">
+            <input
+                type="text"
+                name="q"
+                placeholder="Search for products..."
+                value="{{ query|default:'' }}"
+            >
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="account-links">
+            {% if user.is_authenticated %}
+                <span class="welcome-user">
+                    Hello, {{ user.username }}
+                </span>
+
+                <a href="{% url 'orders' %}">My Orders</a>
+                <a href="{% url 'cart' %}">🛒 Cart</a>
+                <a href="{% url 'wishlist' %}">♡ Wishlist</a>
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">
+                        Logout
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'sign_up' %}" class="signup-button">
+                    Sign Up
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <nav class="category-nav">
+        <a href="{% url 'home' %}" class="nav-all">
+            ☰ All Products
+        </a>
+
+        {% for category in categories %}
+            <a href="{% url 'category_products' category.id %}">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </nav>
+</header>
+
+<main class="store-container">
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <span class="hero-label">WELCOME TO SHOPORA</span>
+
+            <h1>
+                Discover products.<br>
+                Find your favourites.
+            </h1>
+
+            <p>
+                Explore everyday essentials, discover new arrivals
+                and find something you will love.
+            </p>
+
+            <a href="#products" class="shop-button">
+                Explore Products →
+            </a>
+        </div>
+
+        <div class="hero-art">
+            <div class="hero-circle">
+                <span>S.</span>
+            </div>
+
+            <div class="hero-tag">
+                YOUR NEXT<br>
+                GREAT FIND
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <div class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <div>
+                <strong>Easy Shopping</strong>
+                <p>Browse your favourite products</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <span class="benefit-icon">⌕</span>
+            <div>
+                <strong>Find What You Need</strong>
+                <p>Search products with ease</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <span class="benefit-icon">♡</span>
+            <div>
+                <strong>Made for You</strong>
+                <p>A collection for every day</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-section" id="products">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-label">EXPLORE SHOPORA</span>
+
+                <h2>
+                    {% if selected_category %}
+                        {{ selected_category.name }}
+                    {% elif query %}
+                        Search Results
+                    {% else %}
+                        Discover Our Products
+                    {% endif %}
+                </h2>
+            </div>
+
+            <span class="product-count">
+                {{ products|length }} products
+            </span>
+        </div>
+
+        {% if query %}
+            <p class="search-result-text">
+                Showing results for "{{ query }}"
+            </p>
+        {% endif %}
+
+        <div class="products">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+                    <a
+                        href="{% url 'product_detail' product.id %}"
+                        class="product-image"
+                    >
+                        {% if product.image %}
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+                        {% else %}
+                            <span>Image unavailable</span>
+                        {% endif %}
+                    </a>
+
+                    <div class="product-info">
+
+                        <h3>
+                            <a href="{% url 'product_detail' product.id %}">
+                                {{ product.name }}
+                            </a>
+                        </h3>
+
+                        <p class="product-price">
+                            ₹{{ product.price|floatformat:2 }}
+                        </p>
+
+                        {% if product.stock > 0 %}
+                            <p class="stock in-stock">In stock</p>
+                        {% else %}
+                            <p class="stock out-of-stock">Out of stock</p>
+                        {% endif %}
+
+                        <div class="product-actions">
+
+                            <a
+                                href="{% url 'product_detail' product.id %}"
+                                class="details-button"
+                            >
+                                View Details
+                            </a>
+
+                            {% if user.is_authenticated %}
+
+                                {% if product.stock > 0 %}
+                                    <a
+                                        href="{% url 'add_to_cart' product.id %}"
+                                        class="add-cart-button"
+                                    >
+                                        🛒 Add to Cart
+                                    </a>
+                                {% else %}
+                                    <button
+                                        type="button"
+                                        class="add-cart-button out-of-stock-button"
+                                        disabled
+                                    >
+                                        Out of Stock
+                                    </button>
+                                {% endif %}
+
+                                <form
+                                    method="post"
+                                    action="{% url 'add_to_wishlist' product.id %}"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="wishlist-button {% if product.id in wishlist_product_ids %}wishlisted{% endif %}"
+                                    >
+                                        {% if product.id in wishlist_product_ids %}
+                                            ♥ Added to Wishlist
+                                        {% else %}
+                                            ♡ Add to Wishlist
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'login' %}"
+                                    class="add-cart-button"
+                                >
+                                    🛒 Login to Add to Cart
+                                </a>
+
+                                <a
+                                    href="{% url 'login' %}"
+                                    class="wishlist-button"
+                                >
+                                    ♡ Login to Wishlist
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </article>
+
+            {% empty %}
+
+                <div class="empty-products">
+                    <div class="empty-icon">⌕</div>
+                    <h3>No products found</h3>
+
+                    <p>
+                        Try a different search or browse all products.
+                    </p>
+
+                    <a href="{% url 'home' %}" class="shop-button">
+                        Browse All Products
+                    </a>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="store-footer">
+    <a href="{% url 'home' %}" class="logo">
+        Shopora<span>.</span>
+    </a>
+
+    <p>Discover something you'll love.</p>
+    <span>© 2026 Shopora</span>
+</footer>
+
+</body>
+</html>

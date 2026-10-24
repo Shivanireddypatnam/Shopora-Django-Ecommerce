@@ -1,0 +1,135 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shopping Cart | Shopora</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+</head>
+<body>
+
+<header class="cart-header">
+    <a href="{% url 'home' %}" class="logo">Shopora<span>.</span></a>
+
+    <a href="{% url 'home' %}" class="continue-link">
+        Continue Shopping
+    </a>
+</header>
+
+<main class="cart-container">
+
+    <div class="page-heading">
+        <p class="eyebrow">YOUR SHOPPING BAG</p>
+        <h1>My Cart <span>({{ items|length }} items)</span></h1>
+        <p>Review your items before proceeding to checkout.</p>
+    </div>
+
+    {% if items %}
+
+    <div class="cart-layout">
+
+        <section class="cart-products">
+
+            {% for item in items %}
+
+            <article class="cart-item">
+
+                <div class="product-image">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}"
+                             alt="{{ item.product.name }}">
+                    {% else %}
+                        <div class="image-placeholder">No image</div>
+                    {% endif %}
+                </div>
+
+                <div class="product-info">
+                    <h2>{{ item.product.name }}</h2>
+
+                    <p class="product-description">
+                        {{ item.product.description|default:"Quality product selected for you."|truncatewords:14 }}
+                    </p>
+
+                    <p class="unit-price">
+                        ₹{{ item.product.price|floatformat:2 }} <span>/ item</span>
+                    </p>
+
+                    <div class="quantity-control">
+                        <a href="{% url 'decrease_quantity' item.id %}"
+                           aria-label="Decrease quantity">−</a>
+
+                        <span>{{ item.quantity }}</span>
+
+                        <a href="{% url 'increase_quantity' item.id %}"
+                           aria-label="Increase quantity">+</a>
+                    </div>
+
+                    <a href="{% url 'remove_cart' item.id %}"
+                       class="remove-link">Remove item</a>
+                </div>
+
+                <div class="item-subtotal">
+                    <span>Subtotal</span>
+                    <strong>₹{{ item.subtotal|floatformat:2 }}</strong>
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </section>
+
+        <aside class="order-summary">
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+                <span>Items ({{ items|length }})</span>
+                <span>₹{{ total|floatformat:2 }}</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span class="free-delivery">FREE</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <strong>₹{{ total|floatformat:2 }}</strong>
+            </div>
+
+            
+<a href="{% url 'checkout' %}" class="checkout-button">
+    Proceed to Checkout →
+</a>
+
+
+            <p class="secure-note">Your selected items are saved to your account.</p>
+        </aside>
+
+    </div>
+
+    {% else %}
+
+    <section class="empty-cart">
+        <div class="empty-icon">🛍</div>
+        <h2>Your cart is waiting for you</h2>
+        <p>Looks like you haven't added anything to your cart yet.</p>
+        <a href="{% url 'home' %}" class="shop-button">
+            Explore Products
+        </a>
+    </section>
+
+    {% endif %}
+
+</main>
+
+<footer class="cart-footer">
+    <p>© Shopora. Made for better shopping.</p>
+</footer>
+
+</body>
+</html>
