@@ -441,7 +441,6 @@ Shopora-Django-Ecommerce/
 Additional files, including the dependency list and environment configuration instructions, should be included where required.
 
 ## 16. Screenshots
-## 16. Screenshots
 
 ### Home Page
 ![Shopora Home Page](screenshots/box.png)
